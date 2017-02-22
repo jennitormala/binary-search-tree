@@ -54,7 +54,7 @@ int main(void){
     scanf("%s", filename);
     file = fopen(filename, "r");
 
-	    if (file == NULL) {
+        if (file == NULL) {
         printf( "File not found.\n");
         return 0;
         }
@@ -79,7 +79,7 @@ int main(void){
         }
      fclose(file);
     //printNodes(tree.root);
-     nodes = malloc (tree.size * sizeof(*nodes));
+     nodes = (TreeNode**)malloc (tree.size * sizeof(*nodes));
      addToArray(i, tree.root, nodes);
      qsort(nodes, tree.size, sizeof(TreeNode*), compare);
      printArray(tree.size, nodes);
@@ -97,11 +97,11 @@ TreeNode *createTreeNode(const char *word) {
 
         TreeNode *new_node;
 
-        new_node = malloc(sizeof *new_node);
+        new_node = (TreeNode*)malloc(sizeof *new_node);
 
         new_node->left  = NULL;
         new_node->right = NULL;
-        new_node->word  = malloc((strlen(word)+1) * sizeof *word);
+        new_node->word  = (char*)malloc((strlen(word)+1) * sizeof *word);
 
         strncpy(new_node->word, word, strlen(word));
 
@@ -211,7 +211,7 @@ void cleanWord (char *word) {
 
     for (i = 0; i <= strlen(word); i++) {
 
-        if (!isalpha(word[i]) && word[i] != '’' && word[i] != '\'' && word[i] != '‘' ) {
+        if (!isalpha(word[i]) && word[i] != 'â€™' && word[i] != '\'' && word[i] != 'â€˜' ) {
             nextAlpha = (findNextAlphaChar(word, i));
 
             if (nextAlpha == -1) {
@@ -249,7 +249,7 @@ int addToArray(int i, TreeNode *root, TreeNode *array[]) {
   }
 
     if (root != NULL) {
-        array[i] = malloc(sizeof(TreeNode));
+        array[i] = (TreeNode*)malloc(sizeof(TreeNode));
         array[i]->word = root->word;
         array[i]->freq = root->freq;
     }
@@ -275,9 +275,7 @@ void printNodes(TreeNode *root) {
 
   if (root != NULL ) {
     printNodes(root->left);
-
     printf("%-20s %d\n", root->word, root->freq);
-
     printNodes(root->right);
   }
 }
